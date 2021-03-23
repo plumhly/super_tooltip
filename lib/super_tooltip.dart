@@ -334,7 +334,8 @@ class SuperTooltip {
                 left,
                 top,
                 right,
-                bottom)),
+                bottom,
+                contentPadding)),
         margin: _getBallonContainerMargin(),
         child: content,
       ),
@@ -680,22 +681,25 @@ class _BubbleShape extends ShapeBorder {
   final double borderWidth;
   final double? left, top, right, bottom;
   final TooltipDirection popupDirection;
+  final EdgeInsetsGeometry? padding;
 
   _BubbleShape(
-      this.popupDirection,
-      this.targetCenter,
-      this.borderRadius,
-      this.arrowBaseWidth,
-      this.arrowTipDistance,
-      this.borderColor,
-      this.borderWidth,
-      this.left,
-      this.top,
-      this.right,
-      this.bottom);
+    this.popupDirection,
+    this.targetCenter,
+    this.borderRadius,
+    this.arrowBaseWidth,
+    this.arrowTipDistance,
+    this.borderColor,
+    this.borderWidth,
+    this.left,
+    this.top,
+    this.right,
+    this.bottom,
+    this.padding,
+  );
 
   @override
-  EdgeInsetsGeometry get dimensions => new EdgeInsets.all(10.0);
+  EdgeInsetsGeometry get dimensions => this.padding ?? const EdgeInsets.all(10);
 
   @override
   Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
@@ -924,17 +928,19 @@ class _BubbleShape extends ShapeBorder {
   @override
   ShapeBorder scale(double t) {
     return new _BubbleShape(
-        popupDirection,
-        targetCenter,
-        borderRadius,
-        arrowBaseWidth,
-        arrowTipDistance,
-        borderColor,
-        borderWidth,
-        left,
-        top,
-        right,
-        bottom);
+      popupDirection,
+      targetCenter,
+      borderRadius,
+      arrowBaseWidth,
+      arrowTipDistance,
+      borderColor,
+      borderWidth,
+      left,
+      top,
+      right,
+      bottom,
+      padding,
+    );
   }
 }
 
